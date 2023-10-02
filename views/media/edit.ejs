@@ -1,0 +1,30 @@
+<% layout('layout/index')%>
+<div class="row">
+    <h1 class="text-center">Edit Post</h1>
+    <div class="col-6 offset-3">
+        <form action="/post/<%=post._id%>?_method=PUT" method="POST" novalidate class="validated-form">
+            <div class="mb-3">
+                <label class="form-label" for="image">Image Url</label>
+                <input class="form-control" type="text" id="image" name="image"
+                    value="<%=post.image %>" required>
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label" for="caption">Caption</label>
+                <textarea class="form-control" type="text" id="caption" name="caption"
+                    required><%= post.caption%></textarea>
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
+            </div>
+            <div class="mb-3">
+                <button class="btn btn-info">Update Post</button>
+            </div>
+        </form>
+        <a href="/post/<%= post._id%>">Back To Post</a>
+
+    </div>
+</div>
