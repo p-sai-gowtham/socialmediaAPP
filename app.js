@@ -116,12 +116,12 @@ app.delete('/post/:id', isLoggedIn, catchAsync(async (req, res) => {
     res.redirect('/post');
 }));
 
-app.post('/post/:id/like', isLoggedIn, catchAsync(async (req, res) => {
+app.put('/post/:id/like', isLoggedIn, catchAsync(async (req, res) => {
     const { id } = req.params;
     const post = await Post.findById(id);
     post.likes += 1;
     await post.save();
-    res.redirect(`/post/${post._id}`);
+    res.redirect(`/post`);
 }));
 
 app.post('/post/:id/comment', isLoggedIn, catchAsync(async (req, res) => {
