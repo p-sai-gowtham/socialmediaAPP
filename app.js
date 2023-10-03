@@ -4,6 +4,7 @@ const ejsMate = require('ejs-mate');
 const methodOverride = require('method-override');
 const mongoose = require('mongoose');
 const Post = require('./models/post');
+const Comment = require('./models/comment');
 const ExpressError = require('./utils/ExpressError');
 const catchAsync = require('./utils/catchAsync');
 const session = require('express-session');
@@ -80,9 +81,13 @@ app.post('/post/newpost', validatePost, (async (req, res) => {
     res.redirect(`/post/${post._id}`);
 }));
  
-app.get('/post/:id', catchAsync(async (req, res,) => {
-    const post = await Post.findById(req.params.id).populate('author');
-    console.log(post);
+app.get('/post/:id',  catchAsync(async (req, res,) => {
+    const post = await Post.findById(req.params.id).populate({
+        path: 'comments',
+        populate: {
+            path: 'author'
+        }
+    }).populate('author');;
     if (!post) {
         req.flash('error', 'Cannot find that post!');
         return res.redirect('/post');
@@ -111,6 +116,25 @@ app.delete('/post/:id', isLoggedIn, catchAsync(async (req, res) => {
     res.redirect('/post');
 }));
 
+app.post('/post/:id/like', isLoggedIn, catchAsync(async (req, res) => {
+    const { id } = req.params;
+    const post = await Post.findById(id);
+    post.likes += 1;
+    await post.save();
+    res.redirect(`/post/${post._id}`);
+}));
+
+app.post('/post/:id/comment', isLoggedIn, catchAsync(async (req, res) => {
+    const post = await Post.findById(req.params.id);
+    const comment = new Comment(req.body);
+    comment.author = req.user._id;
+    post.comments.push(comment);
+    await comment.save();
+    await post.save();
+    req.flash('success', 'Created new comment!');
+    res.redirect(`/post/${post._id}`);
+}));
+
 
 
 app.get('/register', (req, res) => {
@@ -131,6 +155,14 @@ app.post('/register', catchAsync(async (req, res) => {
         req.flash('error', e.message);
         res.redirect('register');
     }
+}));
+
+app.delete('/post/:id/comment/:commentId', isLoggedIn, catchAsync(async (req, res) => {
+    const { id, commentId } = req.params;
+    await Post.findByIdAndUpdate(id, { $pull: { reviews: commentId } });
+    await Comment.findByIdAndDelete(commentId);
+    req.flash('success', 'Successfully deleted review')
+    res.redirect(`/post/${id}`);
 }));
 
 app.get('/login', (req, res) => {
