@@ -60,9 +60,10 @@ app.use((req, res, next) => {
     next();
 });
 
-app.get('/post', catchAsync(async (req, res) => {
-    const posts = await Post.find({});
-    res.render('media/home', { posts });
+app.get('/post', isLoggedIn, catchAsync(async (req, res) => {
+    const posts = await Post.find({}).populate('author');
+    const user = await User.findById(req.user._id);
+    res.render('media/home', { posts, user });
 }));
 
 app.get('/post/newpost', isLoggedIn, (async (req, res) => {
@@ -119,7 +120,15 @@ app.delete('/post/:id', isLoggedIn, catchAsync(async (req, res) => {
 app.put('/post/:id/like', isLoggedIn, catchAsync(async (req, res) => {
     const { id } = req.params;
     const post = await Post.findById(id);
-    post.likes += 1;
+    post.likes.push(req.user._id);
+    await post.save();
+    res.redirect(`/post`);
+}));
+
+app.put('/post/:id/unlike', isLoggedIn, catchAsync(async (req, res) => {
+    const { id } = req.params;
+    const post = await Post.findById(id);
+    post.likes.pop(req.user._id);
     await post.save();
     res.redirect(`/post`);
 }));

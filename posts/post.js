@@ -14,10 +14,10 @@ const postDB = async () => {
     await Post.deleteMany({});
     for (let i = 0; i < 5; i++) {
         const post = new Post({
-            author: '6516a275f12d9ab5250ba9c0',
+            author: '651fd0a248df3a507b3a6d9a',
             image: 'https://source.unsplash.com/collection/190727/1600x900',
             caption: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quibusdam dolores vero perferendis laudantium, consequuntur voluptatibus nulla architecto, sit soluta esse iure sed labore ipsam a cum nihil atque molestiae deserunt!',
-            likes: 0
+            likes: [],
         })
         await post.save();
     }

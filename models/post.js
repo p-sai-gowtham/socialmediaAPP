@@ -6,7 +6,12 @@ const Schema = mongoose.Schema;
 const PostSchema = new Schema({
     image: String,
     caption: String,
-    likes: Number,
+    likes: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: 'User'
+        }
+    ],
     author: {
         type: Schema.Types.ObjectId,
         ref: 'User'
