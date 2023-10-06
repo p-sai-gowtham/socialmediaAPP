@@ -25,9 +25,9 @@ To run the SocialMedia App locally, follow these steps:
    ```bash
    npm install
 
-4. **Start the development server
+4. **Start the development server**
    ```bash
    nodemon app.js
 
-5.Access the app:
+5.**Access the app**
 Open your web browser and go to http://localhost:3000/post to access the SocialMedia App.
