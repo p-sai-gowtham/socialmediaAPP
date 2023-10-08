@@ -75,7 +75,7 @@ app.post('/post/newpost', validatePost, (async (req, res) => {
     const post = new Post({
         image,
         caption,
-        likes: 0
+        likes: []
     })
     post.author = req.user._id;
     await post.save();
