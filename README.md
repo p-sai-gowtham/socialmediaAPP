@@ -18,7 +18,7 @@ To run the SocialMedia App locally, follow these steps:
 
 
 2. **Navigate to the project directory:**
-   ```bash
+   ```bash 
    cd socialmedia-app
 
 3. **Install Dependencies:**
