@@ -31,3 +31,15 @@ To run the SocialMedia App locally, follow these steps:
 
 5.Access the app:
 Open your web browser and go to http://localhost:3000/post to access the SocialMedia App.
+
+## Technologies Used
+
+- **Frontend:** EJS,CSS,JS
+- **Backend:** Node.js, Express.js, MongoDB
+- **Authentication:** Passport
+- **API Testing:** Postman
+- **Version Control:** Git, GitHub
+
+## Contributing
+
+We welcome contributions from the community! If you find any issues or have suggestions for improvements, please open a GitHub issue or create a pull request. Please follow our [Contributing Guidelines](CONTRIBUTING.md) when making contributions.
